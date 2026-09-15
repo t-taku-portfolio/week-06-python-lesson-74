@@ -33,14 +33,26 @@ def check_memory_disk(threshold_percent: float = 80.0) -> dict:
 def get_top_cpu_process(count: int = 5) -> list:
     # Returns the top CPU consumers.
 
+    # Initialize list every time
     procs = []
+
     try:
+        # Retrieve iterator that has "info" dict including the attributes
+        # All attributes are listed in the psutil's the as_dict() section
         for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
-            procs.append(proc.info)
+            try:
+                procs.append(proc.info)
+
+            # Cactch exceptions for each process's information so as not to skip the entire iteration
+            except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+                    print(e)
+
+        # Sort the list by CPU percent
         sorted_procs = sorted(procs, key= lambda proc: proc['cpu_percent'] or 0, reverse= True)
     except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
         print(e)
 
+    # Return top CPU in range of "count"
     return sorted_procs[:count]
 
 def generate_health_report() -> dict:
