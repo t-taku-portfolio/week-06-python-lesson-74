@@ -35,7 +35,7 @@ def get_top_cpu_process(count: int = 5) -> list:
 
     try:
         proc = psutil.process_iter(['pid', 'name', 'cpu_percent'])
-        sorted_pros = sorted(proc, key= lambda proc: proc.info['cpu_percent'], reverse= True)
+        sorted_pros = sorted(proc, key= lambda proc: proc.info['cpu_percent'] or 0, reverse= True)
         top_cpu = []
         for p in sorted_pros[:count]:
             top_cpu.append(p.info['name'])
@@ -51,7 +51,7 @@ def generate_health_report() -> dict:
 
 volume_stats = check_disk_health()
 for key in volume_stats:
-    print(f'{key}, {volume_stats[key]}')
+    print(f'{key}: {volume_stats[key]}')
 
 memory_stats = check_memory_disk()
 for key in memory_stats:
