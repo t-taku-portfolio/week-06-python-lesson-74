@@ -1,8 +1,6 @@
 import psutil
 
 
-def byte_to_mb(byte: int) -> int: return int(byte / (1024 * 1024)) 
-
 def check_disk_health(threshold_percent: float = 85.0) -> dict:
     # Returns volume stats and an alert flag if usage exceeds threshold.
 
