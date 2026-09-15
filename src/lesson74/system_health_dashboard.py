@@ -16,8 +16,10 @@ def check_disk_health(threshold_percent: float = 85.0) -> dict:
     used_disk_max_percent = max(round(root_disk_usage.percent, 2), round(c_drive_disk_usage.percent, 2))
 
     # Return 
-    return {'disk_used_percent' : used_disk_max_percent,
-            'is_unhealthy' : used_disk_max_percent > threshold_percent}
+    return {
+        "disk_used_percent" : used_disk_max_percent,
+        "is_unhealthy" : used_disk_max_percent > threshold_percent
+        }
 
 def check_memory_disk(threshold_percent: float = 80.0) -> dict:
     # Returns RAM stats and an alert flag if usage exceeds threshold.
@@ -25,10 +27,12 @@ def check_memory_disk(threshold_percent: float = 80.0) -> dict:
     cpu_usage = psutil.cpu_percent(interval= 1)
     memory_info = psutil.virtual_memory()
 
-    return {"cpu_load_percent": cpu_usage,
-            "ram_totla_gb": round(memory_info.total / (1024**3), 2),
-            "ram_used_percent": memory_info.percent,
-            "is_unhealthty": cpu_usage > threshold_percent}
+    return {
+        "cpu_load_percent": cpu_usage,
+        "ram_totla_gb": round(memory_info.total / (1024**3), 2),
+        "ram_used_percent": memory_info.percent,
+        "is_unhealthty": cpu_usage > threshold_percent
+    }
 
 def get_top_cpu_process(count: int = 5) -> list:
     # Returns the top CPU consumers.
@@ -57,15 +61,23 @@ def get_top_cpu_process(count: int = 5) -> list:
 
 def generate_health_report() -> dict:
     # Combines all checks into a single structured summary dictionary.
-    return {}
 
+    volume_stats = check_disk_health()
+    for key in volume_stats:
+        print(f'{key}: {volume_stats[key]}')
 
-volume_stats = check_disk_health()
-for key in volume_stats:
-    print(f'{key}: {volume_stats[key]}')
+    memory_stats = check_memory_disk()
+    for key in memory_stats:
+        print(f'{key}: {memory_stats[key]}')
 
-memory_stats = check_memory_disk()
-for key in memory_stats:
-    print(f'{key}: {memory_stats[key]}')
+    top_cpu_process = get_top_cpu_process() 
+    print(top_cpu_process)
 
-print(get_top_cpu_process())
+    # Combine all checks into single structured summary
+    return {
+        "volume_stats": volume_stats,
+        "memory_stats": memory_stats,
+        "top_cpu_process": top_cpu_process
+    }
+
+generate_health_report()
