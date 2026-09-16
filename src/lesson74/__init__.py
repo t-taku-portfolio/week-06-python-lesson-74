@@ -1,4 +1,4 @@
-from system_health_dashboard import create_report_json
+from .system_health_dashboard import create_report_json
 
 
 def main() -> None:
