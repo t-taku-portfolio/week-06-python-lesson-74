@@ -34,9 +34,9 @@ def check_memory_disk(threshold_percent: float = 80.0) -> dict:
 
     return {
         "cpu_load_percent": cpu_usage,
-        "ram_totla_gb": round(memory_info.total / (1024**3), 2),
+        "ram_used_gb": round(memory_info.total / (1024**3), 2),
         "ram_used_percent": memory_info.percent,
-        "is_unhealthty": cpu_usage > threshold_percent
+        "is_unhealthy": cpu_usage > threshold_percent
     }
 
 def get_top_cpu_process(count: int = 5) -> list:
@@ -52,7 +52,7 @@ def get_top_cpu_process(count: int = 5) -> list:
             try:
                 procs.append(proc.info)
 
-            # Cactch exceptions for each process's information so as not to skip the entire iteration
+            # Catch exceptions for each process's information so as not to skip the entire iteration
             except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
                     print(e)
 
