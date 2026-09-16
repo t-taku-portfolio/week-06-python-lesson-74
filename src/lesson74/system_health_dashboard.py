@@ -1,3 +1,8 @@
+import datetime
+import json
+import zoneinfo
+from pathlib import Path
+
 import psutil
 
 
@@ -22,7 +27,7 @@ def check_disk_health(threshold_percent: float = 85.0) -> dict:
         }
 
 def check_memory_disk(threshold_percent: float = 80.0) -> dict:
-    # Returns RAM stats and an alert flag if usage exceeds threshold.
+    '''Returns RAM stats and an alert flag if usage exceeds threshold.'''
 
     cpu_usage = psutil.cpu_percent(interval= 1)
     memory_info = psutil.virtual_memory()
@@ -35,7 +40,7 @@ def check_memory_disk(threshold_percent: float = 80.0) -> dict:
     }
 
 def get_top_cpu_process(count: int = 5) -> list:
-    # Returns the top CPU consumers.
+    '''Returns the top CPU consumers.'''
 
     # Initialize list every time
     procs = []
@@ -60,7 +65,7 @@ def get_top_cpu_process(count: int = 5) -> list:
     return sorted_procs[:count]
 
 def generate_health_report() -> dict:
-    # Combines all checks into a single structured summary dictionary.
+    '''Combines all checks into a single structured summary dictionary.'''
 
     volume_stats = check_disk_health()
     for key in volume_stats:
@@ -80,4 +85,13 @@ def generate_health_report() -> dict:
         "top_cpu_process": top_cpu_process
     }
 
-generate_health_report()
+def create_report_json(target_dir: str) -> str:
+    data = generate_health_report()
+    JAPAN_TOKYO = zoneinfo.ZoneInfo('Asia/Tokyo')
+    timestamp = datetime.datetime.now(JAPAN_TOKYO).strftime('%Y_%m_%d')
+    file_path = Path(target_dir) / f'health_report_{timestamp}.json'
+    with open(file_path, 'w') as f:
+        json.dump(obj=data, fp= f, indent= 4)
+    return file_path
+
+print(f'[DONE] Create health report at {create_report_json(Path.cwd())}')
