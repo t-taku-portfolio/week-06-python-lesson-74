@@ -26,7 +26,7 @@ def check_disk_health(threshold_percent: float = 85.0) -> dict:
         "is_unhealthy" : used_disk_max_percent > threshold_percent
         }
 
-def check_memory_disk(threshold_percent: float = 80.0) -> dict:
+def check_memory_cpu(threshold_percent: float = 80.0) -> dict:
     '''Returns RAM stats and an alert flag if usage exceeds threshold.'''
 
     cpu_usage = psutil.cpu_percent(interval= 1)
@@ -34,7 +34,7 @@ def check_memory_disk(threshold_percent: float = 80.0) -> dict:
 
     return {
         "cpu_load_percent": cpu_usage,
-        "ram_used_gb": round(memory_info.total / (1024**3), 2),
+        "ram_used_gb": round(memory_info.used / (1024**3), 2),
         "ram_used_percent": memory_info.percent,
         "is_unhealthy": cpu_usage > threshold_percent
     }
@@ -71,7 +71,7 @@ def generate_health_report() -> dict:
     for key in volume_stats:
         print(f'{key}: {volume_stats[key]}')
 
-    memory_stats = check_memory_disk()
+    memory_stats = check_memory_cpu()
     for key in memory_stats:
         print(f'{key}: {memory_stats[key]}')
 
