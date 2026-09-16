@@ -1,8 +1,8 @@
-# System health dashborad
+# System health dashboard
 
 ## Feature
 - Check disk health
-- Check memory disk
+- Check memory and CPU
 - Check top cpu process
 - Generate health report
 - Run on the virtual environment UV
