@@ -90,8 +90,12 @@ def create_report_json(target_dir: str) -> str:
     JAPAN_TOKYO = zoneinfo.ZoneInfo('Asia/Tokyo')
     timestamp = datetime.datetime.now(JAPAN_TOKYO).strftime('%Y_%m_%d')
     file_path = Path(target_dir) / f'health_report_{timestamp}.json'
-    with open(file_path, 'w') as f:
-        json.dump(obj=data, fp= f, indent= 4)
+    try:
+        with open(file_path, 'w') as f:
+            json.dump(obj=data, fp= f, indent= 4)
+    except FileNotFoundError:
+        print('Could not reach target path')
+        raise
     return file_path
 
 if __name__ == '__main__':
