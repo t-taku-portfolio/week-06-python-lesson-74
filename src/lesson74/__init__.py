@@ -1,6 +1,6 @@
-import system_health_dashboard
+from system_health_dashboard import create_report_json
 
 
 def main() -> None:
     print("Hello from lesson74!")
-    system_health_dashboard.create_report_json('.')
+    create_report_json('.')
