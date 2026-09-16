@@ -8,8 +8,15 @@
 - Run on the virtual environment UV
 
 ## How to run
+- Need to install uv for run virtual environment
 
-- Check available locale paths
+
+- Run with below command
+```bash
+uv run python3 src/lesson74/system_health_dashboard.py
+```
+
+- Check available locale paths if you want to change the time zone. The OS-provided time zones will be shown here
 ```bash
  ls /usr/share/zoneinfo/
 ```
@@ -22,11 +29,12 @@
 - [x] Implement check_disk_health
 - [x] Implement check_memory_disk
 - [x] Implement get_top_cpu_process
-- [ ] Implement generate_health_report
+- [x] Implement generate_health_report
 - ~~[ ] Package it as a module that can run everywhere~~
 
 ## Refference
-- [psutil](https://psutil.readthedocs.io/stable/#psutil.process_iter)
-- [psutil](https://psutil.readthedocs.io/stable/#psutil.Process.as_dict)
-- [geeksforgeeks](https://www.geeksforgeeks.org/python/get-current-timestamp-using-python/)
-- [geeksforgeeks](https://www.geeksforgeeks.org/python/reading-and-writing-json-to-a-file-in-python/)
+- [psutil](https://psutil.readthedocs.io/stable/#psutil.process_iter) : Refferd to the docs for process_iter. The docs explains how to obtain process's attribute.
+- [psutil](https://psutil.readthedocs.io/stable/#psutil.Process.as_dict) : Confirmed the attributes to want with this section.
+- [geeksforgeeks](https://www.geeksforgeeks.org/python/get-current-timestamp-using-python/) : Read this article for understanding the basic of getting current timestamp.
+- [docs.python.org](https://docs.python.org/3/library/zoneinfo.html#zoneinfo.TZPATH): Understood how to suppy locale to timestamp.now() function.
+- [geeksforgeeks](https://www.geeksforgeeks.org/python/reading-and-writing-json-to-a-file-in-python/) : Understood how to export json file easily with this "writing" section.
