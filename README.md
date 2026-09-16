@@ -6,6 +6,7 @@
 - Check top cpu process
 - Generate health report
 - Run on the virtual environment UV
+- Create report as local timestamped JSON file. The locale is set to Japan
 
 ## How to run
 - Need to install uv for run virtual environment
