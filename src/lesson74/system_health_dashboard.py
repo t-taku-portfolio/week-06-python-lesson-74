@@ -94,4 +94,5 @@ def create_report_json(target_dir: str) -> str:
         json.dump(obj=data, fp= f, indent= 4)
     return file_path
 
-print(f'[DONE] Create health report at {create_report_json(Path.cwd())}')
+if __name__ == '__main__':
+    print(f'[DONE] Create health report at {create_report_json(Path.cwd())}')
